@@ -1,5 +1,5 @@
 [package]
-name = "pandora"
+name = "pandora-kms"
 version = "0.1.2-alpha"
 edition = "2021"
 description = "personal knowledge management system"
