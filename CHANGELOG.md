@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.2-alpha] - 2023-07-23
+## [0.1.2-alpha.1] - 2023-07-23
 
 ### Added
 
@@ -21,9 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cargo.toml includes necessary fields
 - Update CHANGELOG.md
 - Release pandora version 0.1.2-alpha
+- Release pandora version 0.1.2-alpha
 
 ### Fixed
 
 - Suppressed map(-> _map) in parse_axon function for now
+- Changed crate name to pandora-kms
+- Update Cargo.lock
 
 A Project by Birnadin Erick<me@birn.cc>. I can freelance for you, if you want.

@@ -1,6 +1,6 @@
 [package]
 name = "pandora-kms"
-version = "0.1.2-alpha"
+version = "0.1.2-alpha.1"
 edition = "2021"
 description = "personal knowledge management system"
 authors = ["Birnadin Erick"]
