@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bump version and add alpha
 - Cargo.toml includes necessary fields
 - Update CHANGELOG.md
+- Release pandora version 0.1.2-alpha
 
 ### Fixed
 
