@@ -19,7 +19,7 @@ pub fn read_file(name: &str) -> String {
     content
 }
 
-fn parse_axons(md: &str, map: Option<()>, host: &str) -> String {
+fn parse_axons(md: &str, _map: Option<()>, host: &str) -> String {
     let regex =
         Regex::new(r"(?mU)\[{2}(?P<id>[a-zA-Z\s\-\d]+)\|{1}(?P<desc>[a-zA-Z\s\-\d_]*)\]{2}")
             .unwrap();
