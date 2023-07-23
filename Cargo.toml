@@ -2,8 +2,18 @@
 name = "pandora"
 version = "0.1.2-alpha"
 edition = "2021"
+description = "personal knowledge management system"
+authors = ["Birnadin Erick"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+readme = "README.md"
+license = "MIT"
+
+homepage = "https://pandora.birn.cc"
+documentation = "https://pandora.birn.cc/docs"
+repository = "https://github.com/BirnadinErick/pandora/"
+
+keywords = ["markdown", "kms", "knowledge", "management", "parser"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 regex = "1.9.1"
