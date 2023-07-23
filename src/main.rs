@@ -1,4 +1,23 @@
 use regex::{Captures, Regex};
+use std::collections::HashMap;
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::BufReader;
+
+pub fn read_file(name: &str) -> String {
+    let file = match File::open(name) {
+        Ok(file) => file,
+        Err(_) => panic!("Error opening the input file"),
+    };
+    let mut buf = BufReader::new(file);
+    let mut content = String::new();
+
+    if let Err(_) = buf.read_to_string(&mut content) {
+        panic!("Error reading the file buffer")
+    };
+
+    content
+}
 
 fn parse_axons(md: &str, map: Option<()>, host: &str) -> String {
     let regex =
@@ -18,19 +37,12 @@ fn parse_axons(md: &str, map: Option<()>, host: &str) -> String {
 
 fn main() {
     let host = "https://eb.birn.cc";
-    let regex =
-        Regex::new(r"(?mU)\[{2}(?P<id>[a-zA-Z\s\-\d]+)\|{1}(?P<desc>[a-zA-Z\s\-\d_]*)\]{2}")
-            .unwrap();
-    let string = "I really love [[unix-phil|UNIX philosophy]], because it let me create software for complex scenarios also making them [[scalable-softwares|Scalable]].I also want to remind that I am about to finish my [[100-days|100 Days of Code Challenge]] coming August 17, 2023.    - item0    - item1";
+    let content = read_file("input.md");
 
-    let substitution = format!("[$desc]({}/$id.html)", host);
+    let mut dir: HashMap<&str, &str> = HashMap::new();
+    dir.insert("input.md", &content);
 
-    // result will be a String with the substituted value
-    let result = regex.replace_all(string, |caps: &Captures| {
-        let id = &caps["id"];
-        println!("{}", id);
-        substitution.clone()
-    });
-
-    println!("{}", parse_axons(string, None, host));
+    for (_, v) in dir.iter() {
+        println!("{}", parse_axons(*v, None, host));
+    }
 }
