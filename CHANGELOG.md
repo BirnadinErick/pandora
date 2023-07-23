@@ -21,4 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cargo.toml includes necessary fields
 - Update CHANGELOG.md
 
+### Fixed
+
+- Suppressed map(-> _map) in parse_axon function for now
+
 A Project by Birnadin Erick<me@birn.cc>. I can freelance for you, if you want.
