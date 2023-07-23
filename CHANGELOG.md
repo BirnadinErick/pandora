@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add parse_axons
 - Add CHANGELOG capabilities
+- Add README file
 
 ### Changed
 
