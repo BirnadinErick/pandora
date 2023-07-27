@@ -16,4 +16,5 @@ keywords = ["markdown", "kms", "knowledge", "management", "parser"]
 categories = ["command-line-utilities"]
 
 [dependencies]
+glob = "0.3.1"
 regex = "1.9.1"
