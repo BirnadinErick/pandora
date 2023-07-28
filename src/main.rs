@@ -50,8 +50,8 @@ impl Meta {
         Self { tags, ..self }
     }
 
-    fn parse_meta(f: &str, v: String) -> Self {
-        let m = Self::new(String::from(f));
+    fn parse_meta(f: String, v: String) -> Self {
+        let m = Self::new(f);
 
         v.lines()
             .map(|l| l.split(": ").collect_tuple::<(&str, &str)>().unwrap())
@@ -76,7 +76,7 @@ struct Node {
 }
 
 impl Node {
-    fn new(f: &str, c: String) -> Self {
+    fn new(f: String, c: String) -> Self {
         let (meta, content) = c.split("===").collect_tuple().unwrap();
         let meta = Meta::parse_meta(f.clone(), meta.to_string());
 
@@ -114,14 +114,14 @@ fn discover_files(root: &str) -> Vec<String> {
     files
 }
 
-fn parse_axons(md: &str, _map: Option<()>, host: &str) -> String {
+fn parse_axons(md: &String, _map: Option<()>, host: &str) -> String {
     let regex =
         Regex::new(r"(?mU)\[{2}(?P<id>[a-zA-Z\s\-\d]+)\|{1}(?P<desc>[a-zA-Z\s\-\d_]*)\]{2}")
             .unwrap();
 
     let substitution = format!("[$desc]({}/$id.html)", host);
 
-    regex.replace_all(md, substitution).into()
+    regex.replace_all(md.as_str(), substitution).into()
 }
 
 fn main() {
@@ -132,18 +132,18 @@ fn main() {
         .into_iter()
         .map(|f| (f.clone(), read_file(f.as_str().clone())))
         .collect();
-    // let content = read_file("input.md");
 
-    let dir: HashMap<String, String> =
-        content.into_iter().fold(HashMap::new(), |mut acc, (f, c)| {
-            acc.insert(f, c);
-            acc
-        });
-    // dir.insert("input.md", &content);
+    let dir: HashMap<String, Node> = content.into_iter().fold(HashMap::new(), |mut acc, (f, c)| {
+        acc.insert(f.clone(), Node::new(f, c));
+        acc
+    });
 
-    for (f, v) in dir.iter() {
-        println!("{}:", f);
-        println!("{}", parse_axons(&v, None, host));
-        println!("");
+    for (k, v) in dir.iter() {
+        println!(
+            "file: {}\n\tmeta: {:?}\n\tcontent: {}",
+            k,
+            v.meta,
+            parse_axons(&v.content, None, host)
+        );
     }
 }
