@@ -1,9 +1,91 @@
 use glob::glob;
-use regex::{Captures, Regex};
+use itertools::Itertools;
+use regex::Regex;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
+
+#[derive(Debug, Clone)]
+struct Meta {
+    id: String,
+    title: String,
+    author: String,
+    tags: Vec<String>,
+    loc: String,
+}
+
+impl Meta {
+    fn new(loc: String) -> Self {
+        Self {
+            id: String::from("enigma-bits"),
+            title: String::from("Enigma Bits"),
+            author: String::from("Birnadin Erick<me@birn.cc>"),
+            tags: vec![String::from("eb-birn-cc")],
+            loc,
+        }
+    }
+
+    fn add_id(self, id: String) -> Self {
+        Self { id, ..self }
+    }
+
+    fn add_title(self, title: String) -> Self {
+        Self { title, ..self }
+    }
+
+    fn add_author(self, author: String) -> Self {
+        Self { author, ..self }
+    }
+
+    fn add_tag(self, tag: String) -> Self {
+        let tags = vec![self.tags, vec![tag]];
+        Self {
+            tags: tags.into_iter().flatten().collect::<Vec<String>>(),
+            ..self
+        }
+    }
+
+    fn add_tags(self, tags: Vec<String>) -> Self {
+        Self { tags, ..self }
+    }
+
+    fn parse_meta(f: &str, v: String) -> Self {
+        let m = Self::new(String::from(f));
+
+        v.lines()
+            .map(|l| l.split(": ").collect_tuple::<(&str, &str)>().unwrap())
+            .fold(m, |acc, (mkey, mval)| match mkey {
+                "id" => acc.add_id(mval.to_string()),
+                "title" => acc.add_title(mval.to_string()),
+                "author" => acc.add_author(mval.to_string()),
+                "tags" => acc.add_tags(
+                    mval.split(", ")
+                        .map(|t| String::from(t))
+                        .collect::<Vec<String>>(),
+                ),
+                _ => acc,
+            })
+    }
+}
+
+#[derive(Debug, Clone)]
+struct Node {
+    meta: Meta,
+    content: String,
+}
+
+impl Node {
+    fn new(f: &str, c: String) -> Self {
+        let (meta, content) = c.split("===").collect_tuple().unwrap();
+        let meta = Meta::parse_meta(f.clone(), meta.to_string());
+
+        Self {
+            meta,
+            content: content.to_string(),
+        }
+    }
+}
 
 pub fn read_file(name: &str) -> String {
     let file = match File::open(name) {
