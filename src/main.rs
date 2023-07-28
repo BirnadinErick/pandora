@@ -39,17 +39,6 @@ fn parse_axons(md: &str, _map: Option<()>, host: &str) -> String {
 
     let substitution = format!("[$desc]({}/$id.html)", host);
 
-    // regex
-    //     .replace_all(md, |caps: &Captures| {
-    //         let id = &caps["id"];
-    //         println!("{}", id);
-    //         substitution.clone()
-    //     })
-    //     .into()
-    // let res: String = regex.replace_all(md, substitution).into();
-    // println!("{}", res);
-    // res
-
     regex.replace_all(md, substitution).into()
 }
 
